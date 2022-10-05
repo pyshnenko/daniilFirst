@@ -21,5 +21,10 @@
         width: 100%;
         justify-content: space-evenly;
     }
-    
+    .resources {
+        width: 100%;
+    }    
+    p {
+        font-size: xx-large;
+    }
 }

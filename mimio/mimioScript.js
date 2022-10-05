@@ -1,4 +1,4 @@
-let authRes=false;
+let authRes=true;
 
 function auth({url, login, pass, theme}) {
 
