@@ -1,0 +1,61 @@
+img {
+    margin: 30px;
+    width: 40%;
+}
+
+#image1 {
+    animation: 1s linear 0s normal none infinite running zaloop;
+}
+
+#image2 {
+    animation: 0.5s linear 0s normal none infinite running zaloop2;
+}
+
+.pict {
+    display: flex;
+}
+
+@keyframes zaloop {
+    0% {
+      transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(90deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    75% {
+        transform: rotate(270deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+  }
+
+  @keyframes zaloop2 {
+        0% {
+        transform: rotate(-90deg);
+        }
+        14% {
+        transform: rotate(-80deg);
+        }
+        28% {
+            transform: rotate(-70deg);
+        }
+        42% {
+            transform: rotate(-30deg);
+        }
+        56% {
+            transform: rotate(30deg);
+        }
+        70% {
+            transform: rotate(90deg);
+        }
+        84% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(-90deg);
+        }
+    }

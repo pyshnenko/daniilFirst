@@ -1,0 +1,22 @@
+{
+  "name": "test",
+  "version": "0.0.1",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "nop"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spamigor/testSite.git"
+  },
+  "author": "spamigor",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spamigor/testSite/issues"
+  },
+  "homepage": "https://github.com/spamigor/testSite#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}

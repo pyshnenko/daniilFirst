@@ -1,0 +1,106 @@
+#total {
+    margin-top: 20px;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.formAndButton {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+}
+
+#bigForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: inherit;
+}
+
+#formInput {
+
+}
+
+#formLable {
+
+}
+
+.resources {
+    width: inherit;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+}
+
+#colors {
+    margin: 15px;
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.primeColor {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    margin: 5px;
+}
+
+.seckondColor {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+}
+
+p {
+    font-family: sans-serif;
+    margin: 0;
+}
+
+.colorP {
+    width: 100px;
+    margin: 5px;
+}
+
+#colorPS {
+
+}
+
+#sendForm {
+    max-width: 900px;
+}
+
+.uploadLable {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#uploads {
+    background-color: cornsilk;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    padding: 15px;
+    border-radius: 75px;
+    box-shadow: 0 0 10px cornsilk;
+}
+
+#parent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

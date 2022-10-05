@@ -1,0 +1,25 @@
+@media screen and (max-aspect-ratio: 85/90) {
+    .workedForm {
+
+    }
+    .formInput {
+        font-size: xx-large;
+        color: cadetblue;
+    }
+    .formLable {
+        font-size: xx-large;
+    }
+    .formButton {
+        font-size: xx-large;
+    }
+    .colorP {
+        font-size: xx-large;
+        width: 100px;
+        margin: 5px;
+    }
+    .primeColor {
+        width: 100%;
+        justify-content: space-evenly;
+    }
+    
+}

@@ -1,0 +1,46 @@
+#image1 {
+    position: fixed;
+    width: 10%;
+    top: 40%;
+    left: 40%;
+}
+
+.formInput {
+    border: 0;
+    border-bottom: 1.5px solid #73a9b3;
+    margin: 0;
+    padding: 5px;
+}
+.formInput:focus,
+.formInput:active,
+.formInput:hover {
+    outline: none;
+}
+
+.formLable {
+    padding: 0;
+    margin: 0;
+    font-family: sans-serif;
+    font-size: medium;
+}
+
+.formField {
+    margin: 5px;
+}
+
+.formButton {
+    width: 80%;
+    max-width: 200px;
+    margin: 5px;
+    padding: 7px;
+    background-color: #30abd7;
+    border: 0;
+    color: white;
+}
+.formButton:focus,
+.formButton:hover {
+    box-shadow: 0 0 10px #30abd7;
+}
+.formButton:active{
+    box-shadow: 0 0 10px black;
+}
