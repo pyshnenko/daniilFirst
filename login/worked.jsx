@@ -3,7 +3,7 @@ let root=ReactDOM.createRoot(document.getElementById("content"));
 class Form extends React.Component {
     constructor() {
         super();
-        this.state={url: '', login: '', pass: '', loginHidden: {general: false, error: true}};
+        this.state={url: '', login: '', pass: '', loginHidden: {general: false, error: true}, min: true};
     }
     handleURL(event) {
         this.state.url=event.target.value;
@@ -22,10 +22,11 @@ class Form extends React.Component {
         this.setState(this.state);
     }
     handleEnter(event) {
+        document.getElementById("image1").hidden=false;
         event.preventDefault();
         if (auth(this.state)) {
             this.state.loginHidden={error: true, general: true};
-            document.getElementById("image1").hidden=false;
+            document.getElementById("image1").hidden=this.state.loginHidden.error;
         }
         else 
             this.state.loginHidden.error=false;
@@ -59,5 +60,5 @@ class Form extends React.Component {
         </div>
     }
 }
-root.render(<Form />);
+rend();
 

@@ -1,11 +1,40 @@
 let authRes=true;
-
-function auth({url, login, pass, theme}) {
-
-    console.log('mimio');
-    return authRes;
+function auth({url, login, pass, theme}) { // функция должна подключиться к минио, получить json, записать его в data, выдать true или false
+  let i=0; while (i<1000000000) i++;
+  return authRes;
 }
-let datal = {}
+
+function jsonSave() {  //функция должна передать json в минио
+  console.log('save');
+}
+
+function imageSave(addr, type) {
+  console.log(type);
+  console.log(addr)
+}
+
+let datal = {
+  "colors": {},
+    "company_name": "",
+    "images": {
+      "favicon": "",
+      "logo_mini": "",
+      "logo": ""
+    },
+    "resources": {
+      "webpage": "",
+      "facebook": "",
+      "linkedin": "",
+      "twitter": "",
+      "github": "",
+      "docs": "",
+      "android_market": "",
+      "ios_market": "",
+      "android_sdk": "",
+      "ios_sdk": "",
+      "privacyPolicy": ""
+    }
+}
 let data = {
     "colors": {
       "primary": {
@@ -68,4 +97,10 @@ function getKeys(buffer){
     for (let key in buffer)
         bufferIn.push(key);
     return bufferIn;
+}
+
+function shextohex(col)
+  {
+    if (col.length==4) return col[0]+col[1]+col[1]+col[2]+col[2]+col[3]+col[3];
+    if (col.length==7) return col;
 }

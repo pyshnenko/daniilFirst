@@ -44,3 +44,10 @@
 .formButton:active{
     box-shadow: 0 0 10px black;
 }
+
+input[type=file]::-webkit-file-upload-button {
+    background-color: #30abd7;
+    border: 0;
+    width: 50%;
+    color: white;
+}

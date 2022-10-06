@@ -7,26 +7,29 @@ function test(buf) {
                 <p className="formLable" id="formLable">{key}</p>
                 <input className="formInput" id="formInput" value={data.resources[key]} onChange={event => formChange(key, event)} />
             </div>);
+    let resourcesMin = resources.slice(0,3);
+    let resourcesT = (buf.min) ? resourcesMin : resources;
     colors=setColors(data.colors);
     let forms = <div className="formAndButton">
-            <form id="bigForm" onSubmit={event => onFormSave(event)}>
+            <form id="bigForm" onSubmit={event => onFormSave(event, 'send')}>
                 <div className="resources">
                     <p className="formLable" id="formLable">company name</p>
                     <input className="formInput" id="formInput" value={data.company_name} onChange={event => formChange('company_name', event)} required />
                 </div>
-                {resources}
+                {resourcesT}
+                <button className="formButton" onClick={event => openCloseListButton(buf, event)}>{buf.min ? 'Раскрыть' : 'Скрыть'}</button>
                 <div id="colors">{colors}</div>
                 <input className="formButton" type="submit" value='Save' />
             </form>
         </div>;
-    let faviconfiles = <form className="formAndButton" onSubmit={event => uploadForm(event)}>
-        <div className="uploadLable"><p>Upload favicon</p><input id="sendForm" className="formButton" type="file" /></div>
+    let faviconfiles = <form className="formAndButton" onSubmit={event => uploadForm(event, 'favicon')} method="post">
+        <div className="uploadLable"><p>Upload favicon</p><input id="sendForm" className="formButton" type="file" name="favicon" accept="image/png"/></div>
             <input className="formButton" type="submit" /></form>
-    let logofiles = <form className="formAndButton" onSubmit={event => uploadForm(event)}>
-        <div className="uploadLable"><p>Upload logo</p><input id="sendForm" className="formButton" type="file" /></div>
+    let logofiles = <form className="formAndButton" onSubmit={event => uploadForm(event, 'flogo')} method="post">
+        <div className="uploadLable"><p>Upload logo</p><input id="sendForm" className="formButton" type="file" name="logo" accept="image/*" /></div>
             <input className="formButton" type="submit" /></form>
-    let shortLogofiles = <form className="formAndButton" onSubmit={event => uploadForm(event)}>
-        <div className="uploadLable"><p>Upload short logo</p><input id="sendForm" className="formButton" type="file" /></div>
+    let shortLogofiles = <form className="formAndButton" onSubmit={event => uploadForm(event, 'slogo')} method="post">
+        <div className="uploadLable"><p>Upload short logo</p><input id="sendForm" className="formButton" type="file" name="shortLogo" accept="image/*"  /></div>
             <input className="formButton" type="submit" /></form>
     document.getElementById("image1").hidden=true;
     return <div id="total">{forms}<div id="uploads">{faviconfiles}{logofiles}{shortLogofiles}</div></div>
@@ -35,11 +38,11 @@ function test(buf) {
 function formChange(buf, event) {
     if (buf==='company_name') {
         data.company_name=event?.target.value;
-        root.render(<Form />);
+        rend();
     }
     else if (buf.length >2) {
         data.resources[buf]=event?.target.value;
-        root.render(<Form />);
+        rend();
     }
 }
 
@@ -47,11 +50,11 @@ function setColors(buf) {
     let forExit = [];
     let inpKeys = [];
     for (let key in buf)
-        if (getKeysCount(buf[key])==1) forExit.push(<div className="primeColor"><p className="colorP">{key}</p><input type="color" value={data.colors[key].main} 
-                onChange={event => colorChange(key, 'main', event)} /></div>);
+        if (getKeysCount(buf[key])==1) forExit.push(<div className="primeColor"><p className="colorP">{key}</p><input type="color" 
+            value={shextohex(data.colors[key].main)} onChange={event => colorChange(key, 'main', event)} /></div>);
         else  {
-            for (let key2 in buf[key]) inpKeys.push(<div className="seckondColor"><p className="colorP" id="colorPS">{key2}</p><input type="color" value={data.colors[key][key2]} 
-                onChange={event => colorChange(key, key2, event)} /></div>)
+            for (let key2 in buf[key]) inpKeys.push(<div className="seckondColor"><p className="colorP" id="colorPS">{key2}</p><input type="color" 
+                value={shextohex(data.colors[key][key2])} onChange={event => colorChange(key, key2, event)} /></div>)
             forExit.push(<div className="primeColor"><p className="colorP">{key}</p>{inpKeys}</div>);
             inpKeys=[];
         }
@@ -61,15 +64,26 @@ function setColors(buf) {
 function colorChange(buf, buf2, event) {
     if (buf.length>2) {
         data.colors[buf][buf2]=event?.target.value;
-        root.render(<Form />);
+        rend();
     }
 }
-function onFormSave(event) {
+function onFormSave(event, operat) {
     event.preventDefault();
-    console.log('save');
+    if (operat==='send') jsonSave();
 }
 
-function uploadForm(event) {
+function uploadForm(event, arg) {
     event.preventDefault();
-    console.log('upload');
+    imageSave(event, arg);
+}
+
+function openCloseListButton(buf, event) {
+    buf.min=!buf.min;
+    rend();
+}
+
+function rend() {
+    document.getElementById("image1").hidden=false;
+    root.render(<Form />);
+    document.getElementById("image1").hidden=true;
 }
