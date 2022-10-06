@@ -1,6 +1,6 @@
 let authRes=true;
 function auth({url, login, pass, theme}) { // функция должна подключиться к минио, получить json, записать его в data, выдать true или false
-  let i=0; while (i<1000000000) i++;
+  //let i=0; while (i<1000000000) i++;
   return authRes;
 }
 
