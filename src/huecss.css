@@ -5,6 +5,7 @@ img {
 
 #image1 {
     animation: 1s linear 0s normal none infinite running zaloop;
+    z-index: 9999;
 }
 
 #image2 {

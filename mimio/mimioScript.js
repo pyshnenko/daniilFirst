@@ -1,6 +1,36 @@
-let authRes=true;
-function auth({url, login, pass, theme}) { // функция должна подключиться к минио, получить json, записать его в data, выдать true или false
-  //let i=0; while (i<1000000000) i++;
+console.log('hello');
+
+let authRes=false;
+
+var s3Client = new Minio.Client({
+  endPoint: 'spamigor.site',
+  port: 9000,
+  useSSL: true,
+  accessKey: 'spamigor',
+  secretKey: 'ugD6s2xz'
+});
+
+let dataS='';
+let data;
+
+function auth({url, login, pass, theme}) {
+    s3Client.getObject('my-bucketname', 'my-objectname2', function(e, dataStream) {
+      if (e) {
+        return console.log(e)
+      }
+      dataStream.on('data', function(chunk) {
+        dataS += chunk
+      })
+      dataStream.on('end', function() {
+        console.log("End");
+        console.log(dataS);
+        data=JSON.parse(dataS);
+        authRes=true;
+      })
+      dataStream.on('error', function(e) {
+        console.log(e)
+      })
+    })
   return authRes;
 }
 
@@ -12,73 +42,6 @@ function imageSave(addr, type) {
   console.log(type);
   console.log(addr)
 }
-
-let datal = {
-  "colors": {},
-    "company_name": "",
-    "images": {
-      "favicon": "",
-      "logo_mini": "",
-      "logo": ""
-    },
-    "resources": {
-      "webpage": "",
-      "facebook": "",
-      "linkedin": "",
-      "twitter": "",
-      "github": "",
-      "docs": "",
-      "android_market": "",
-      "ios_market": "",
-      "android_sdk": "",
-      "ios_sdk": "",
-      "privacyPolicy": ""
-    }
-}
-let data = {
-    "colors": {
-      "primary": {
-        "main": "#30AAD9",
-        "light": "#D2EFFB",
-        "dark": "#002884",
-        "contrastText": "#fff"
-      },
-      "secondary": {
-        "main": "#4badd4"
-      },
-      "error": {
-        "main": "#f57c00"
-      },
-      "warning": {
-        "main": "#ffa726"
-      },
-      "info": {
-        "main": "#335df4"
-      },
-      "success": {
-        "main": "#559B27"
-      }
-    },
-    "company_name": "Navigine",
-    "images": {
-      "favicon": "https://static.navigine.com/themes/prod/favicon.ico",
-      "logo_mini": "https://static.navigine.com/themes/prod/logo_mini.svg",
-      "logo": "https://static.navigine.com/themes/prod/logo.svg"
-    },
-    "resources": {
-      "webpage": "https://navigine.com/blog",
-      "facebook": "https://www.facebook.com/navigine",
-      "linkedin": "http://www.linkedin.com/company/3363029?trk=prof-e",
-      "twitter": "https://twitter.com/Navigine",
-      "github": "https://github.com/Navigine",
-      "docs": "https://docs.navigine.com",
-      "android_market": "https://play.google.com/store/apps/details?id=com.navigine.navigine&hl=en",
-      "ios_market": "https://itunes.apple.com/ru/app/navigine/id972099798?l=en&mt=8",
-      "android_sdk": "https://github.com/Navigine/Indoor-Navigation-Android-Mobile-SDK-2.0",
-      "ios_sdk": "https://github.com/Navigine/Indoor-Navigation-iOS-Mobile-SDK-2.0",
-      "privacyPolicy": "https://navigine.com/privacy/"
-    }
-  }
 
   function getData() {
     return data;

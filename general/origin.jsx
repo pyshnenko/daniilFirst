@@ -37,11 +37,11 @@ function test(buf) {
 
 function formChange(buf, event) {
     if (buf==='company_name') {
-        data.company_name=event?.target.value;
+        data.company_name=event.target.value;
         rend();
     }
     else if (buf.length >2) {
-        data.resources[buf]=event?.target.value;
+        data.resources[buf]=event.target.value;
         rend();
     }
 }
@@ -63,7 +63,7 @@ function setColors(buf) {
 
 function colorChange(buf, buf2, event) {
     if (buf.length>2) {
-        data.colors[buf][buf2]=event?.target.value;
+        data.colors[buf][buf2]=event.target.value;
         rend();
     }
 }
