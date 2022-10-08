@@ -1,9 +1,11 @@
 document.getElementById("image1").hidden=true;
 let root=ReactDOM.createRoot(document.getElementById("content"));
+let loginHidden = {error: true, general: false, makeBucket: true};
 class Form extends React.Component {
     constructor() {
         super();
-        this.state={url: '', login: '', pass: '', loginHidden: {general: false, error: true}, min: true};
+        this.state={url: 'spamigor.site', login: 'spamigor', pass: 'ugD6s2xz', theme: 'themes', min: true};
+        this.setState(this.state);
     }
     handleURL(event) {
         this.state.url=event.target.value;
@@ -24,19 +26,14 @@ class Form extends React.Component {
     handleEnter(event) {
         document.getElementById("image1").hidden=false;
         event.preventDefault();
-        if (auth(this.state)) {
-            this.state.loginHidden={error: true, general: true};
-            document.getElementById("image1").hidden=this.state.loginHidden.error;
-        }
-        else 
-            this.state.loginHidden.error=false;
+        auth(this.state);
         this.setState(this.state);
     }
     render() {
-        let form = this.state.loginHidden.general ?
+        let form = loginHidden.general ?
             <div id="parent">{test(this.state)}</div> :
             <form className="workedForm" onSubmit={this.handleEnter.bind(this)} id="loginForm">
-                <p className="formLable" style={{color: 'red'}} hidden={this.state.loginHidden.error}>Проверь ввод</p>
+                <p className="formLable" style={{color: 'red'}} hidden={loginHidden.error}>Проверь ввод</p>
                 <div className="formField">
                     <p className="formLable">URL</p>
                     <input className="formInput" value={this.state.url} onChange={this.handleURL.bind(this)} required />
@@ -51,12 +48,19 @@ class Form extends React.Component {
                 </div>
                 <div className="formField">
                     <p className="formLable">Theme prod</p>
-                    <input className="formInput" value={this.state.theme} onChange={this.handleTheme.bind(this)} required />
+                    <input className="formInput" value={this.state.theme} onChange={this.handleTheme.bind(this)} />
                 </div>
                 <input className="formButton" type="submit" value='Вход' />
             </form> ;
+        let errForm = loginHidden.makeBucket ?
+            <div></div> :
+                <div className="workedForm">
+                    <p className="formLable">Create bucket or object?</p>
+                    <input className="formButton" type="submit" value='Yes' onClick={event => creatBorF('yes', event)} />
+                    <input className="formButton" type="submit" value='No' onClick={event => creatBorF('no', event)} />
+                </div>
         return <div>
-            {form}
+            {form}{errForm}
         </div>
     }
 }

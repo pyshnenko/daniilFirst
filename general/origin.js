@@ -58,10 +58,13 @@ function test(buf) {
             React.createElement("input", { className: "formButton", type: "submit", value: "Save" })
         )
     );
+    var file1 = React.createRef();
+    var file2 = React.createRef();
+    var file3 = React.createRef();
     var faviconfiles = React.createElement(
         "form",
         { className: "formAndButton", onSubmit: function onSubmit(event) {
-                return uploadForm(event, 'favicon');
+                return uploadForm(event, 'favicon', file1);
             }, method: "post" },
         React.createElement(
             "div",
@@ -71,14 +74,14 @@ function test(buf) {
                 null,
                 "Upload favicon"
             ),
-            React.createElement("input", { id: "sendForm", className: "formButton", type: "file", name: "favicon", accept: "image/png" })
+            React.createElement("input", { id: "sendForm", className: "formButton", type: "file", name: "favicon", accept: "image/ico", ref: file1 })
         ),
         React.createElement("input", { className: "formButton", type: "submit" })
     );
     var logofiles = React.createElement(
         "form",
         { className: "formAndButton", onSubmit: function onSubmit(event) {
-                return uploadForm(event, 'flogo');
+                return uploadForm(event, 'flogo', file2);
             }, method: "post" },
         React.createElement(
             "div",
@@ -88,14 +91,14 @@ function test(buf) {
                 null,
                 "Upload logo"
             ),
-            React.createElement("input", { id: "sendForm", className: "formButton", type: "file", name: "logo", accept: "image/*" })
+            React.createElement("input", { id: "sendForm", className: "formButton", type: "file", name: "logo", accept: "image/*", ref: file2 })
         ),
         React.createElement("input", { className: "formButton", type: "submit" })
     );
     var shortLogofiles = React.createElement(
         "form",
         { className: "formAndButton", onSubmit: function onSubmit(event) {
-                return uploadForm(event, 'slogo');
+                return uploadForm(event, 'slogo', file3);
             }, method: "post" },
         React.createElement(
             "div",
@@ -105,7 +108,7 @@ function test(buf) {
                 null,
                 "Upload short logo"
             ),
-            React.createElement("input", { id: "sendForm", className: "formButton", type: "file", name: "shortLogo", accept: "image/*" })
+            React.createElement("input", { id: "sendForm", className: "formButton", type: "file", name: "shortLogo", accept: "image/*", ref: file3 })
         ),
         React.createElement("input", { className: "formButton", type: "submit" })
     );
@@ -188,7 +191,6 @@ function setColors(buf) {
         _loop2(key);
     }return forExit;
 }
-
 function colorChange(buf, buf2, event) {
     if (buf.length > 2) {
         data.colors[buf][buf2] = event.target.value;
@@ -199,10 +201,12 @@ function onFormSave(event, operat) {
     event.preventDefault();
     if (operat === 'send') jsonSave();
 }
-
-function uploadForm(event, arg) {
+var ghjjk = void 0;
+function uploadForm(event, arg, file) {
+    console.log(file.current.files);
+    ghjjk = file;
     event.preventDefault();
-    imageSave(event, arg);
+    imageSave(event, arg, file);
 }
 
 function openCloseListButton(buf, event) {

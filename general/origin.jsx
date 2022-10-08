@@ -22,14 +22,20 @@ function test(buf) {
                 <input className="formButton" type="submit" value='Save' />
             </form>
         </div>;
-    let faviconfiles = <form className="formAndButton" onSubmit={event => uploadForm(event, 'favicon')} method="post">
-        <div className="uploadLable"><p>Upload favicon</p><input id="sendForm" className="formButton" type="file" name="favicon" accept="image/png"/></div>
+    let file1 = React.createRef();
+    let file2 = React.createRef();
+    let file3 = React.createRef();
+    let faviconfiles = <form className="formAndButton" onSubmit={event => uploadForm(event, 'favicon', file1)} method="post">
+        <div className="uploadLable"><p>Upload favicon</p>
+            <input id="sendForm" className="formButton" type="file" name="favicon" accept="image/ico" ref={file1} /></div>
             <input className="formButton" type="submit" /></form>
-    let logofiles = <form className="formAndButton" onSubmit={event => uploadForm(event, 'flogo')} method="post">
-        <div className="uploadLable"><p>Upload logo</p><input id="sendForm" className="formButton" type="file" name="logo" accept="image/*" /></div>
+    let logofiles = <form className="formAndButton" onSubmit={event => uploadForm(event, 'flogo', file2)} method="post">
+        <div className="uploadLable"><p>Upload logo</p>
+        <input id="sendForm" className="formButton" type="file" name="logo" accept="image/*" ref={file2} /></div>
             <input className="formButton" type="submit" /></form>
-    let shortLogofiles = <form className="formAndButton" onSubmit={event => uploadForm(event, 'slogo')} method="post">
-        <div className="uploadLable"><p>Upload short logo</p><input id="sendForm" className="formButton" type="file" name="shortLogo" accept="image/*"  /></div>
+    let shortLogofiles = <form className="formAndButton" onSubmit={event => uploadForm(event, 'slogo', file3)} method="post">
+        <div className="uploadLable"><p>Upload short logo</p>
+        <input id="sendForm" className="formButton" type="file" name="shortLogo" accept="image/*" ref={file3} /></div>
             <input className="formButton" type="submit" /></form>
     document.getElementById("image1").hidden=true;
     return <div id="total">{forms}<div id="uploads">{faviconfiles}{logofiles}{shortLogofiles}</div></div>
@@ -60,7 +66,6 @@ function setColors(buf) {
         }
     return forExit;
 }
-
 function colorChange(buf, buf2, event) {
     if (buf.length>2) {
         data.colors[buf][buf2]=event.target.value;
@@ -71,10 +76,12 @@ function onFormSave(event, operat) {
     event.preventDefault();
     if (operat==='send') jsonSave();
 }
-
-function uploadForm(event, arg) {
+let ghjjk;
+function uploadForm(event, arg, file) {
+    console.log(file.current.files);
+    ghjjk = file;
     event.preventDefault();
-    imageSave(event, arg);
+    imageSave(event, arg, file);
 }
 
 function openCloseListButton(buf, event) {

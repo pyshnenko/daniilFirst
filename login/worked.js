@@ -8,6 +8,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 document.getElementById("image1").hidden = true;
 var root = ReactDOM.createRoot(document.getElementById("content"));
+var loginHidden = { error: true, general: false, makeBucket: true };
 
 var Form = function (_React$Component) {
     _inherits(Form, _React$Component);
@@ -17,7 +18,8 @@ var Form = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this));
 
-        _this.state = { url: '', login: '', pass: '', loginHidden: { general: false, error: true }, min: true };
+        _this.state = { url: 'spamigor.site', login: 'spamigor', pass: 'ugD6s2xz', theme: 'themes', min: true };
+        _this.setState(_this.state);
         return _this;
     }
 
@@ -50,16 +52,13 @@ var Form = function (_React$Component) {
         value: function handleEnter(event) {
             document.getElementById("image1").hidden = false;
             event.preventDefault();
-            if (auth(this.state)) {
-                this.state.loginHidden = { error: true, general: true };
-                document.getElementById("image1").hidden = this.state.loginHidden.error;
-            } else this.state.loginHidden.error = false;
+            auth(this.state);
             this.setState(this.state);
         }
     }, {
         key: "render",
         value: function render() {
-            var form = this.state.loginHidden.general ? React.createElement(
+            var form = loginHidden.general ? React.createElement(
                 "div",
                 { id: "parent" },
                 test(this.state)
@@ -68,7 +67,7 @@ var Form = function (_React$Component) {
                 { className: "workedForm", onSubmit: this.handleEnter.bind(this), id: "loginForm" },
                 React.createElement(
                     "p",
-                    { className: "formLable", style: { color: 'red' }, hidden: this.state.loginHidden.error },
+                    { className: "formLable", style: { color: 'red' }, hidden: loginHidden.error },
                     "\u041F\u0440\u043E\u0432\u0435\u0440\u044C \u0432\u0432\u043E\u0434"
                 ),
                 React.createElement(
@@ -109,14 +108,30 @@ var Form = function (_React$Component) {
                         { className: "formLable" },
                         "Theme prod"
                     ),
-                    React.createElement("input", { className: "formInput", value: this.state.theme, onChange: this.handleTheme.bind(this), required: true })
+                    React.createElement("input", { className: "formInput", value: this.state.theme, onChange: this.handleTheme.bind(this) })
                 ),
                 React.createElement("input", { className: "formButton", type: "submit", value: "\u0412\u0445\u043E\u0434" })
+            );
+            var errForm = loginHidden.makeBucket ? React.createElement("div", null) : React.createElement(
+                "div",
+                { className: "workedForm" },
+                React.createElement(
+                    "p",
+                    { className: "formLable" },
+                    "Create bucket or object?"
+                ),
+                React.createElement("input", { className: "formButton", type: "submit", value: "Yes", onClick: function onClick(event) {
+                        return creatBorF('yes', event);
+                    } }),
+                React.createElement("input", { className: "formButton", type: "submit", value: "No", onClick: function onClick(event) {
+                        return creatBorF('no', event);
+                    } })
             );
             return React.createElement(
                 "div",
                 null,
-                form
+                form,
+                errForm
             );
         }
     }]);
