@@ -1,21 +1,26 @@
 let authData = {
 	url: '',
+	port: '',
+	ssl: true,
 	login: '',
 	pass: '',
-	theme: ''
+	theme: '',
+	folder: ''
 };
 
 
 var s3Client;
-let trig = false;
+let trig = false, policySet=true;
 
-function setLoginData({url, login, pass, theme}) {
+function setLoginData({url, port, ssl, login, pass, theme, folder}) {
 	if (trig) {
-		authData = {url: url, login: login, pass: pass, theme: theme};
+		if (folder[0]==='/') folder=folder.substr(1);
+		if ((folder!='')&&(folder.substr(-1)!=='/')) folder+='/';
+		authData = {url: url, port: port, ssl:ssl, login: login, pass: pass, theme: theme, folder: folder};
 		s3Client = new Minio.Client({
 			endPoint: authData.url,
-			port: 9000,
-			useSSL: true,
+			port: Number(authData.port),
+			useSSL: authData.ssl,
 			accessKey: authData.login,
 			secretKey: authData.pass
 		});
@@ -69,13 +74,13 @@ let dataZ = {
 	}
 };
 
-function auth({url, login, pass, theme}) {
+function auth({url, port, ssl, login, pass, theme, folder}) {
 	if (trig) {
 		data = {};
 		let dataS='';
-		setLoginData({url, login, pass, theme});
+		setLoginData({url, port, ssl, login, pass, theme, folder});
 		console.log(authData);
-		s3Client.getObject(authData.theme, 'prod/theme.json', function(e, dataStream) {
+		s3Client.getObject(authData.theme, authData.folder+'theme.json', function(e, dataStream) {
 			if (e) {
 				console.log('f');
 				console.log(e);
@@ -113,7 +118,7 @@ function jsonSave() {  //функция должна передать json в м
 	if (trig) {
 		console.log('save');
 		if (authRes) {
-			s3Client.putObject(authData.theme, 'prod/theme.json', JSON.stringify(data), function(e) {
+			s3Client.putObject(authData.theme, authData.folder+'theme.json', JSON.stringify(data), function(e) {
 				if (e) {
 				return console.log(e)
 				}
@@ -123,28 +128,62 @@ function jsonSave() {  //функция должна передать json в м
 		}
 	}
 }
-
-function imageSave(addr, type, file) {
+let mfile, newFile, newFileData;
+async function imageSave(addr, type, file) {
   console.log(file.current.files[0]);
   console.log(type);
+  mfile=file;
   if (file.current.files[0]) {
-	let reader = new FileReader();
+	//let reader = new FileReader();
 	loading(true);
-	reader.onloadend = ((event) => {
-
-		s3Client.putObject(authData.theme, 'prod/'+file.current.files[0].name, event.target.result, function(e) {
+	newFile=file.current.files[0];
+	newFileData = newFile.slice(0, newFile.size, newFile.size);
+	let fName=newFile.name.slice(-4);
+	if (fName.indexOf('.')==(-1)) fName='.'+fName;
+	if (type=='favicon')fName='favicon'+fName;
+	if (type=='flogo')fName='logo'+fName;
+	if (type=='slogo')fName='logo_mini'+fName;
+	let url = (authData.ssl?'https://':'http://')+authData.url+':'+authData.port+'/'+authData.theme+'/'+authData.folder+fName;
+	let sendData={method: 'PUT', headers: {'Content-type': newFile.type}, body: newFile}
+	const respons = await fetch(url, sendData);
+	console.log (respons);
+	if (respons.ok) {
+		if (type=='favicon') data.images.favicon=url;
+		if (type=='flogo') data.images.logo=url;
+		if (type=='slogo') data.images.logo_mini=url;
+		jsonSave();
+	}
+	loading(false);
+	rend();
+	/*if (type==='favicon')
+		newFile = new File([newFileData],
+			'favicon'+newFile.name.substr(newFile.name.indexOf('.')),
+			{type: newFile.type});
+	if (type==='flogo') 
+		newFile = new File([newFileData],
+			'logo'+newFile.name.substr(newFile.name.indexOf('.')),
+			{type: newFile.type});
+	if (type==='slogo')
+		newFile = new File([newFileData],
+			'logo_mini.svg',//+newFile.name.substr(newFile.name.indexOf('.')),
+			{type: newFile.type});
+		  console.log(typeof(newFile.type));
+	reader.onload = ((event) => {
+		console.log(event.target.result);
+		s3Client.putObject(authData.theme, authData.folder+newFile.name, event.target.result, {'Content-type': newFile.type}, function(e) {
 			if (e) {
-			return console.log(e)
+				return console.log(e)
 			}
-			if (type==='favicon') data.images.favicon='https://'+authData.url+'/'+authData.theme+'/prod/'+file.current.files[0].name;
-			if (type==='flogo') data.images.logo='https://'+authData.url+'/'+authData.theme+'/prod/'+file.current.files[0].name;
-			if (type==='slogo') data.images.logo_mini='https://'+authData.url+'/'+authData.theme+'/prod/'+file.current.files[0].name;
+			if (type==='favicon') data.images.favicon = newFile.type=='image/svg+xml' ? 'https://'+authData.url+':9000/'+authData.theme+'/'+authData.folder+newFile.name : event.target.result;
+			if (type==='flogo') data.images.logo = newFile.type=='image/svg+xml' ? 'https://'+authData.url+':9000/'+authData.theme+'/'+authData.folder+newFile.name : event.target.result;
+			if (type==='slogo') data.images.logo_mini = newFile.type=='image/svg+xml' ? 'https://'+authData.url+':9000/'+authData.theme+'/'+authData.folder+newFile.name : event.target.result;
 			jsonSave();
 			loading(false);
 			console.log("Successfully uploaded the Buffer");
-			});
+			rend();
 		});
-		reader.readAsText(file.current.files[0]);
+	});
+	reader.readAsBinaryString(newFile);*/
 	}
   /**/
 }
@@ -196,18 +235,21 @@ function setPolicy() {
 			  "s3:PutObject"
 			],
 			"Resource": [
-			  "arn:aws:s3:::themes/*"
+			  "arn:aws:s3:::${authData.theme}/*"
 			]
 		  }
 		]
 	  }
 	`;
 	console.log(authData.theme);
-	s3Client.setBucketPolicy(authData.theme, policy, (err) => {
-		if (err) throw err	
-			console.log('Set bucket policy');
-		if (!err) console.log('policy set');
-	})
+	if (policySet) s3Client.setBucketPolicy(authData.theme, policy, (err) => {
+			if (err) throw err	
+				console.log('Set bucket policy');
+			if (!err) {
+				console.log('policy set');
+				policySet=false;
+			}
+		})	
 }
 
 function creatBucket() {

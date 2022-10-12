@@ -7,7 +7,7 @@
 }
 
 .formAndButton {
-    width: 80%;
+    width: 90%;
     display: flex;
     flex-direction: row;
     align-items: stretch;
@@ -37,6 +37,7 @@
     flex-direction: column;
     flex-wrap: nowrap;
     align-items: stretch;
+    text-align: center;
 }
 
 #colors {
@@ -81,7 +82,7 @@ p {
 }
 
 .uploadLable {
-    width: 100%;
+    width: 75%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -103,4 +104,48 @@ p {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.formImg {
+    margin: 5px;
+    margin-left: 20px;
+    max-height: 75px;
+    width: auto;
+    object-fit: cover;
+}
+
+.textColor {
+    margin: 0;
+    padding: 0;
+    width: 70px;
+    border: 1px solid wheat;
+    background-color: antiquewhite;
+    box-shadow: 0 0 5px antiquewhite;
+    border-radius: 10px;
+}
+
+.formTextInput {
+    width: 90%;
+    border: 0;
+    margin: 5px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px cornflowerblue;
+}
+
+.formImgPos {
+    width: 25%;
+    display: flex;
+    align-items: center;
+}
+
+#imgSend {
+    width: 25%;
+}
+
+.leftImpForm {
+    display: flex;
+    width: 75%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
 }

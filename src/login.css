@@ -10,3 +10,13 @@
     justify-content: center;
     align-items: center;
 }
+#checkbaboxPlace {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+#checkbaboxPlace > input {
+    margin: 5px;
+    zoom: 1.5;
+}

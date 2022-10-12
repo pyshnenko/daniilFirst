@@ -27,4 +27,31 @@
     p {
         font-size: xx-large;
     }
+    .formImg {
+        max-height: 185px;
+    }
+    .textColor {
+        font-size: x-large;
+        width: 110px;
+        margin: 5px;
+    }
+    .leftImpForm {
+        flex-direction: column;
+    }
+    #imgSend {
+        width: 100%;
+    }
+    .uploadLable {
+        width: 100%;
+    }
+    #uploads > form {
+        margin: 10px 0;
+        border: 1px solid burlywood;
+        border-radius: 10px;
+    }
+    .formImgPos {
+        width: 25%;
+        display: flex;
+        align-items: center;
+    }
 }

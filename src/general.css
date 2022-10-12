@@ -10,6 +10,7 @@
     border-bottom: 1.5px solid #73a9b3;
     margin: 0;
     padding: 5px;
+    text-align: center;
 }
 .formInput:focus,
 .formInput:active,

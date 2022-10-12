@@ -18,7 +18,7 @@ var Form = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this));
 
-        _this.state = { url: 'spamigor.site', login: 'spamigor', pass: 'ugD6s2xz', theme: 'themes', min: true };
+        _this.state = { url: 'spamigor.site', port: 9000, ssl: true, login: 'spamigor', pass: 'ugD6s2xz', theme: 'themes', min: true, folder: '/prod' };
         _this.setState(_this.state);
         return _this;
     }
@@ -27,6 +27,18 @@ var Form = function (_React$Component) {
         key: "handleURL",
         value: function handleURL(event) {
             this.state.url = event.target.value;
+            this.setState(this.state);
+        }
+    }, {
+        key: "handlePort",
+        value: function handlePort(event) {
+            if (Number(event.target.value) || event.target.value == '') this.state.port = event.target.value;
+            this.setState(this.state);
+        }
+    }, {
+        key: "handleSSL",
+        value: function handleSSL(event) {
+            this.state.ssl = !this.state.ssl;
             this.setState(this.state);
         }
     }, {
@@ -45,6 +57,12 @@ var Form = function (_React$Component) {
         key: "handleTheme",
         value: function handleTheme(event) {
             this.state.theme = event.target.value;
+            this.setState(this.state);
+        }
+    }, {
+        key: "handleFolder",
+        value: function handleFolder(event) {
+            this.state.folder = event.target.value;
             this.setState(this.state);
         }
     }, {
@@ -86,6 +104,26 @@ var Form = function (_React$Component) {
                     React.createElement(
                         "p",
                         { className: "formLable" },
+                        "port"
+                    ),
+                    React.createElement("input", { className: "formInput", value: this.state.port, onChange: this.handlePort.bind(this) })
+                ),
+                React.createElement(
+                    "div",
+                    { className: "formField", id: "checkbaboxPlace" },
+                    React.createElement(
+                        "p",
+                        { className: "formLable" },
+                        "use SSL"
+                    ),
+                    React.createElement("input", { type: "checkbox", className: "formInput", checked: this.state.ssl, onChange: this.handleSSL.bind(this) })
+                ),
+                React.createElement(
+                    "div",
+                    { className: "formField" },
+                    React.createElement(
+                        "p",
+                        { className: "formLable" },
                         "Login"
                     ),
                     React.createElement("input", { className: "formInput", value: this.state.login, onChange: this.handleLogin.bind(this), required: true })
@@ -109,6 +147,16 @@ var Form = function (_React$Component) {
                         "Theme prod"
                     ),
                     React.createElement("input", { className: "formInput", value: this.state.theme, onChange: this.handleTheme.bind(this) })
+                ),
+                React.createElement(
+                    "div",
+                    { className: "formField" },
+                    React.createElement(
+                        "p",
+                        { className: "formLable" },
+                        "folder"
+                    ),
+                    React.createElement("input", { className: "formInput", value: this.state.folder, onChange: this.handleFolder.bind(this) })
                 ),
                 React.createElement("input", { className: "formButton", type: "submit", value: "\u0412\u0445\u043E\u0434" })
             );

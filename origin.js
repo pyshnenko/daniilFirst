@@ -1,7 +1,6 @@
 function test(buf) {
     var resources = [];
     var colors = [];
-    bufColor = data.colors;
 
     var _loop = function _loop(key) {
         resources.push(React.createElement(
@@ -69,27 +68,16 @@ function test(buf) {
             }, method: "post" },
         React.createElement(
             "div",
-            { className: "leftImpForm" },
+            { className: "uploadLable" },
             React.createElement(
-                "div",
-                { className: "uploadLable" },
-                React.createElement(
-                    "p",
-                    null,
-                    "Upload favicon"
-                ),
-                React.createElement("input", { id: "sendForm", className: "formButton", type: "file", name: "favicon", accept: "image/x-icon", ref: file1 }),
-                React.createElement("input", { className: "formTextInput", value: data.images.favicon, onChange: function onChange(event) {
-                        return textAddrPictInp(event, 'favicon');
-                    } })
+                "p",
+                null,
+                "Upload favicon"
             ),
-            React.createElement("input", { className: "formButton", id: "imgSend", type: "submit" })
+            React.createElement("input", { id: "sendForm", className: "formButton", type: "file", name: "favicon", accept: "image/x-icon", ref: file1 })
         ),
-        data.images.favicon ? React.createElement(
-            "div",
-            { className: "formImgPos" },
-            React.createElement("img", { className: "formImg", src: data.images.favicon, alt: "no file" })
-        ) : React.createElement("div", { className: "formImgPos" })
+        React.createElement("input", { className: "formButton", type: "submit" }),
+        React.createElement("img", { className: "formImg", src: data.images.favicon })
     );
     var logofiles = React.createElement(
         "form",
@@ -98,27 +86,16 @@ function test(buf) {
             }, method: "post" },
         React.createElement(
             "div",
-            { className: "leftImpForm" },
+            { className: "uploadLable" },
             React.createElement(
-                "div",
-                { className: "uploadLable" },
-                React.createElement(
-                    "p",
-                    null,
-                    "Upload logo"
-                ),
-                React.createElement("input", { id: "sendForm", className: "formButton", type: "file", name: "logo", accept: "image/*", ref: file2 }),
-                React.createElement("input", { className: "formTextInput", value: data.images.logo, onChange: function onChange(event) {
-                        return textAddrPictInp(event, 'logo');
-                    } })
+                "p",
+                null,
+                "Upload logo"
             ),
-            React.createElement("input", { className: "formButton", id: "imgSend", type: "submit" })
+            React.createElement("input", { id: "sendForm", className: "formButton", type: "file", name: "logo", accept: "image/*", ref: file2 })
         ),
-        data.images.logo ? React.createElement(
-            "div",
-            { className: "formImgPos" },
-            React.createElement("img", { className: "formImg", src: data.images.logo, alt: "no file" })
-        ) : React.createElement("div", { className: "formImgPos" })
+        React.createElement("input", { className: "formButton", type: "submit" }),
+        React.createElement("img", { className: "formImg", src: data.images.logo })
     );
     var shortLogofiles = React.createElement(
         "form",
@@ -127,27 +104,16 @@ function test(buf) {
             }, method: "post" },
         React.createElement(
             "div",
-            { className: "leftImpForm" },
+            { className: "uploadLable" },
             React.createElement(
-                "div",
-                { className: "uploadLable" },
-                React.createElement(
-                    "p",
-                    null,
-                    "Upload short logo"
-                ),
-                React.createElement("input", { id: "sendForm", className: "formButton", type: "file", name: "shortLogo", accept: "image/*", ref: file3 }),
-                React.createElement("input", { className: "formTextInput", value: data.images.logo_mini, onChange: function onChange(event) {
-                        return textAddrPictInp(event, 'logo_mini');
-                    } })
+                "p",
+                null,
+                "Upload short logo"
             ),
-            React.createElement("input", { className: "formButton", id: "imgSend", type: "submit" })
+            React.createElement("input", { id: "sendForm", className: "formButton", type: "file", name: "shortLogo", accept: "image/*", ref: file3 })
         ),
-        data.images.logo_mini ? React.createElement(
-            "div",
-            { className: "formImgPos" },
-            React.createElement("img", { className: "formImg", src: data.images.logo_mini, alt: "no file" })
-        ) : React.createElement("div", { className: "formImgPos" })
+        React.createElement("input", { className: "formButton", type: "submit" }),
+        React.createElement("img", { className: "formImg", src: data.images.logo_mini })
     );
     document.getElementById("image1").hidden = true;
     return React.createElement(
@@ -173,12 +139,7 @@ function formChange(buf, event) {
         rend();
     }
 }
-function textAddrPictInp(event, trig) {
-    data.images[trig] = event.target.value;
-    rend();
-}
 
-var bufColor = void 0;
 function setColors(buf) {
     var forExit = [];
     var inpKeys = [];
@@ -195,9 +156,6 @@ function setColors(buf) {
             React.createElement("input", { type: "color",
                 value: shextohex(data.colors[key].main), onChange: function onChange(event) {
                     return colorChange(key, 'main', event);
-                } }),
-            React.createElement("input", { className: "textColor", value: bufColor[key]['main'], onChange: function onChange(event) {
-                    return textColorChange(key, 'main', event);
                 } })
         ));else {
             var _loop3 = function _loop3(key2) {
@@ -212,9 +170,6 @@ function setColors(buf) {
                     React.createElement("input", { type: "color",
                         value: shextohex(data.colors[key][key2]), onChange: function onChange(event) {
                             return colorChange(key, key2, event);
-                        } }),
-                    React.createElement("input", { className: "textColor", value: bufColor[key][key2], onChange: function onChange(event) {
-                            return textColorChange(key, key2, event);
                         } })
                 ));
             };
@@ -242,17 +197,6 @@ function setColors(buf) {
 function colorChange(buf, buf2, event) {
     if (buf.length > 2) {
         data.colors[buf][buf2] = event.target.value;
-        bufColor = data.colors;
-        rend();
-    }
-}
-function textColorChange(buf, buf2, event) {
-    if (buf.length > 2 && event.target.value[0] === '#') {
-        var rg = /^#[A-F0-9]*/gsi;
-        if (rg.test(event.target.value)) bufColor[buf][buf2] = event.target.value.toLocaleUpperCase();
-        if (bufColor[buf][buf2].length == 7) {
-            data.colors = bufColor;
-        }
         rend();
     }
 }
@@ -262,11 +206,10 @@ function onFormSave(event, operat) {
 }
 var ghjjk = void 0;
 function uploadForm(event, arg, file) {
-    event.preventDefault();
+    console.log(file.current.files);
     ghjjk = file;
-    if (file.current.files[0]) {
-        imageSave(event, arg, file);
-    } else jsonSave();
+    event.preventDefault();
+    imageSave(event, arg, file);
 }
 
 function openCloseListButton(buf, event) {
