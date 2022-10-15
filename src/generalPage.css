@@ -85,7 +85,7 @@ p {
     width: 75%;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
 }
 
 #uploads {
@@ -147,5 +147,5 @@ p {
     width: 75%;
     flex-direction: row;
     flex-wrap: nowrap;
-    align-items: stretch;
+    align-items: center;
 }

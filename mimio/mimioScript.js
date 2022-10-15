@@ -74,6 +74,9 @@ let dataZ = {
 	}
 };
 
+let localStoregeData = [];
+if (localStorage.data) localStoregeData=JSON.parse(localStorage.data);
+
 function auth({url, port, ssl, login, pass, theme, folder}) {
 	if (trig) {
 		data = {};
@@ -85,8 +88,8 @@ function auth({url, port, ssl, login, pass, theme, folder}) {
 				console.log('f');
 				console.log(e);
 				errName=e.code;
-				if ((e.code==='NoSuchBucket')||(e.code==='NoSuchKey')) loginHidden={error: true, general: false, makeBucket: false};
-				else loginHidden={error: false, general: false, makeBucket: false};
+				if ((e.code==='NoSuchBucket')||(e.code==='NoSuchKey')) loginHidden={error: true, general: false, makeBucket: false, savedData: {button: false, list: false}};
+				else loginHidden={error: false, general: false, makeBucket: false, savedData: {button: false, list: false}};
 				authRes=false;
 				rend();
 			}
@@ -97,7 +100,10 @@ function auth({url, port, ssl, login, pass, theme, folder}) {
 				dataStream.on('end', function() {
 					data=JSON.parse(dataS);
 					authRes=true;
-					loginHidden={error: true, general: true, makeBucket: false};
+					loginHidden={error: true, general: true, makeBucket: false, savedData: {button: false, list: false}};
+					let needSave=true;
+					for (let i=0; i<localStoregeData.length; i++) if (localStoregeData[i].url==authData.url) {needSave=false; break};
+					if (needSave) { localStoregeData.push(authData); localStorage.setItem('data', JSON.stringify(localStoregeData))};
 					rend();
 				})
 				dataStream.on('error', function(e) {
@@ -265,11 +271,11 @@ function creatBucket() {
 function creatBorF(trig, event) {
 	event.preventDefault();
 	console.log(trig);	
-	if (trig === 'no') loginHidden={error: true, general: false, makeBucket: true};
+	if (trig === 'no') loginHidden={error: true, general: false, makeBucket: true, savedData: {button: false, list: false}};
 	if (trig === 'yes') {
 		console.log(errName);
 		if (errName==='NoSuchBucket') creatBucket(authData.theme);
-		loginHidden={error: true, general: true, makeBucket: false};
+		loginHidden={error: true, general: true, makeBucket: false, savedData: {button: false, list: false}};
 		authRes=true;
 	} 
 	rend();

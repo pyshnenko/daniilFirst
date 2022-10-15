@@ -77,9 +77,13 @@ function setColors(buf) {
     let forExit = [];
     let inpKeys = [];
     for (let key in buf)
-        if (getKeysCount(buf[key])==1) forExit.push(<div className="primeColor"><p className="colorP">{key}</p><input type="color" 
-            value={shextohex(data.colors[key].main)} onChange={event => colorChange(key, 'main', event)} />
-            <input className="textColor" value={bufColor[key]['main']} onChange={event => textColorChange(key, 'main', event)} /></div>);
+        if (getKeysCount(buf[key])==1) {            
+            for (let key2 in buf[key]) inpKeys.push(<div className="primeColor"><input type="color" 
+                value={shextohex(data.colors[key][key2])} onChange={event => colorChange(key, key2, event)} />
+                <input className="textColor" value={bufColor[key][key2]} onChange={event => textColorChange(key, key2, event)} /></div>)
+            forExit.push(<div className="primeColor"><p className="colorP">{key}</p>{inpKeys}</div>);
+            inpKeys=[];
+        }
         else  {
             for (let key2 in buf[key]) inpKeys.push(<div className="seckondColor"><p className="colorP" id="colorPS">{key2}</p><input type="color" 
                 value={shextohex(data.colors[key][key2])} onChange={event => colorChange(key, key2, event)} />

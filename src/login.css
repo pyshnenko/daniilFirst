@@ -20,3 +20,19 @@
     margin: 5px;
     zoom: 1.5;
 }
+.openStorageDataList {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    margin-left: 20px;
+    align-items: flex-start;
+    width: 30%;
+}
+
+.openStorageData {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    width: 100%;
+}

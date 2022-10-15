@@ -184,23 +184,36 @@ function setColors(buf) {
     var inpKeys = [];
 
     var _loop2 = function _loop2(key) {
-        if (getKeysCount(buf[key]) == 1) forExit.push(React.createElement(
-            "div",
-            { className: "primeColor" },
-            React.createElement(
-                "p",
-                { className: "colorP" },
-                key
-            ),
-            React.createElement("input", { type: "color",
-                value: shextohex(data.colors[key].main), onChange: function onChange(event) {
-                    return colorChange(key, 'main', event);
-                } }),
-            React.createElement("input", { className: "textColor", value: bufColor[key]['main'], onChange: function onChange(event) {
-                    return textColorChange(key, 'main', event);
-                } })
-        ));else {
+        if (getKeysCount(buf[key]) == 1) {
             var _loop3 = function _loop3(key2) {
+                inpKeys.push(React.createElement(
+                    "div",
+                    { className: "primeColor" },
+                    React.createElement("input", { type: "color",
+                        value: shextohex(data.colors[key][key2]), onChange: function onChange(event) {
+                            return colorChange(key, key2, event);
+                        } }),
+                    React.createElement("input", { className: "textColor", value: bufColor[key][key2], onChange: function onChange(event) {
+                            return textColorChange(key, key2, event);
+                        } })
+                ));
+            };
+
+            for (var key2 in buf[key]) {
+                _loop3(key2);
+            }forExit.push(React.createElement(
+                "div",
+                { className: "primeColor" },
+                React.createElement(
+                    "p",
+                    { className: "colorP" },
+                    key
+                ),
+                inpKeys
+            ));
+            inpKeys = [];
+        } else {
+            var _loop4 = function _loop4(key2) {
                 inpKeys.push(React.createElement(
                     "div",
                     { className: "seckondColor" },
@@ -220,7 +233,7 @@ function setColors(buf) {
             };
 
             for (var key2 in buf[key]) {
-                _loop3(key2);
+                _loop4(key2);
             }forExit.push(React.createElement(
                 "div",
                 { className: "primeColor" },

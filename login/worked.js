@@ -8,7 +8,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 document.getElementById("image1").hidden = true;
 var root = ReactDOM.createRoot(document.getElementById("content"));
-var loginHidden = { error: true, general: false, makeBucket: true };
+var loginHidden = { error: true, general: false, makeBucket: true, savedData: { button: localStorage.data ? false : true, list: true } };
 
 var Form = function (_React$Component) {
     _inherits(Form, _React$Component);
@@ -18,7 +18,7 @@ var Form = function (_React$Component) {
 
         var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this));
 
-        _this.state = { url: 'spamigor.site', port: 9000, ssl: true, login: 'spamigor', pass: 'ugD6s2xz', theme: 'themes', min: true, folder: '/prod' };
+        _this.state = { url: '', port: '', ssl: true, login: '', pass: '', theme: '', min: true, folder: '' };
         _this.setState(_this.state);
         return _this;
     }
@@ -74,8 +74,45 @@ var Form = function (_React$Component) {
             this.setState(this.state);
         }
     }, {
+        key: "handleSavedListGeneral",
+        value: function handleSavedListGeneral(event) {
+            loginHidden.savedData.list = !loginHidden.savedData.list;
+            this.setState(this.state);
+        }
+    }, {
+        key: "savedListCheck",
+        value: function savedListCheck(event, index) {
+            console.log(index);
+            var numb = index;
+            var authBuf = JSON.parse(localStorage.data);
+            if (numb == 134568) localStorage.clear();else {
+                this.state.url = authBuf[numb].url;
+                this.state.port = authBuf[numb].port;
+                this.state.ssl = authBuf[numb].ssl;
+                this.state.login = authBuf[numb].login;
+                this.state.pass = authBuf[numb].pass;
+                this.state.theme = authBuf[numb].theme;
+                this.state.folder = authBuf[numb].folder;
+            }
+            this.setState(this.state);
+        }
+    }, {
         key: "render",
         value: function render() {
+            var _this2 = this;
+
+            var listSavedDataBuf = localStorage.data ? JSON.parse(localStorage.data) : '';
+            var listSavedData = [];
+            if (listSavedDataBuf != '') {
+                listSavedData = listSavedDataBuf.map(function (item, index) {
+                    return React.createElement("input", { className: "formButton", type: "submit", value: item.url, onClick: function onClick(event) {
+                            return _this2.savedListCheck(event, index);
+                        } });
+                });
+                listSavedData.push(React.createElement("input", { className: "formButton", type: "submit", value: "\u041E\u0447\u0438\u0441\u0442\u0438\u0442\u044C", onClick: function onClick(event) {
+                        return _this2.savedListCheck(event, 134568);
+                    } }));
+            }
             var form = loginHidden.general ? React.createElement(
                 "div",
                 { id: "parent" },
@@ -175,9 +212,23 @@ var Form = function (_React$Component) {
                         return creatBorF('no', event);
                     } })
             );
+            var openStorageDataList = loginHidden.savedData.list ? React.createElement("div", null) : React.createElement(
+                "div",
+                { className: "openStorageDataList" },
+                listSavedData
+            );
+            var openStorageData = loginHidden.general || loginHidden.savedData.button ? React.createElement("div", null) : React.createElement(
+                "div",
+                { className: "openStorageData" },
+                React.createElement("input", { className: "formButton", type: "submit", value: "Saved logins", onClick: function onClick(event) {
+                        return _this2.handleSavedListGeneral(event);
+                    } }),
+                openStorageDataList
+            );
             return React.createElement(
                 "div",
                 null,
+                openStorageData,
                 form,
                 errForm
             );
